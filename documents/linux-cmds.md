@@ -1,31 +1,11 @@
 # Linux Commands
 
-Modify File Permissions Recursively
+Modify File Permissions Recursively: `sudo find . -type d -exec chmod 775 {} ";"`
 
-```bash
-sudo find . -type d -exec chmod 775 {} ";"
-```
+Modify Folder Permissions Recursively: `sudo find . -type f -exec chmod 664 {} ";"`
 
-Modify Folder Permissions Recursively
+Add existing User to an existing Group: `sudo usermod -a -G [group] [user]`
 
-```bash
-sudo find . -type f -exec chmod 664 {} ";"
-```
+Change User & Group Recursively: `sudo chown -R www-data:www-data .`
 
-Add existing User to an existing Group
-
-```bash
-sudo usermod -a -G [group] [user]
-```
-
-Change User & Group Recursively
-
-```bash
-sudo chown -R www-data:www-data .
-```
-
-Enable .htaccess
-
-```bash
-sudo a2enmod rewrite
-```
+Enable .htaccess: `sudo a2enmod rewrite`
