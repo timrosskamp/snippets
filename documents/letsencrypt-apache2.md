@@ -3,22 +3,22 @@
 ## Prerequisites
 
 - Debian 10 (Buster)
-- SSH Access
-- sudo Permissions
+- SSH access
+- sudo permissions
 
 ## Certbot setup
 
 Install certbot:
 `sudo apt-get install certbot python-certbot-apache`
 
-Get Certificates for apache:
+Get certificates for apache:
 `sudo certbot certonly --apache`
 
 ## Apache Configuration
 
 [ssl-config.mozilla.org](https://ssl-config.mozilla.org)
 
-Enable Apache SSL Module: `sudo a2enmod ssl`
+Enable apache SSL module: `sudo a2enmod ssl`
 
 ```
 <VirtualHost *:80>
@@ -44,3 +44,5 @@ SSLSessionTickets       off
 SSLUseStapling On
 SSLStaplingCache "shmcb:logs/ssl_stapling(32768)"
 ```
+
+Restart apache: `sudo service apache2 restart`
