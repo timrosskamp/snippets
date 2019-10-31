@@ -22,3 +22,4 @@
 ## Links
 
 * [How To Install Node.js on Debian 10 (digitalocean.com)](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-debian-10)
+* [How To Install Linux, Apache, MariaDB, PHP (LAMP) stack on Debian 10 (digitalocean.com)](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mariadb-php-lamp-stack-on-debian-10)
