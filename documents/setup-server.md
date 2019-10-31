@@ -11,6 +11,10 @@
 2. Setup nodesource: `sudo bash nodesource_setup.sh`
 3. Install Node.js: `sudo apt install nodejs`
 
+### PHP
+
+1. Install required PHP Packages: `sudo apt install php php-common libapache2-mod-php`
+2. Install PHP Extensions: `sudo apt install php-cli php-fpm php-json php-pdo php-mysql php-zip php-gd  php-mbstring php-curl php-xml php-pear php-bcmath`
 
 ### Apache2
 
