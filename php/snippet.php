@@ -1,3 +1,5 @@
+<?php
+
 /**
  * Embeds a snippet
  *
