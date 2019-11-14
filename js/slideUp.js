@@ -18,3 +18,28 @@ const slideUp = ( el, options = {} ) => {
         }
     });
 }
+
+
+
+const slideUp = ( el, options = {} ) => {
+    el.style.maxHeight = el.offsetHeight + 'px';
+    el.style.overflow = 'hidden';
+    el.style.transition = `max-height ${ options.duration || '0.5s' } ease`;
+
+    el.addEventListener('transitionend', function end(){
+        el.removeEventListener('transitionend', end);
+
+        el.style.maxHeight = '';
+        el.style.overflow = '';
+        el.style.transition = '';
+        el.style.display = 'none';
+
+        options.done && options.done();
+    });
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            el.style.maxHeight = '0';
+        });
+    });
+}
