@@ -17,5 +17,5 @@ float(11,7) | decimal(11,7)
 29.0077019  | 29.0077011
 ```
 
-* [What MySQL data type should be used for Latitude/Longitude with 8 decimal places? stackoverflow.com](https://stackoverflow.com/questions/12504208/what-mysql-data-type-should-be-used-for-latitude-longitude-with-8-decimal-places)
-* [Genauigkeit von Koordinaten openstreetmap.org](https://wiki.openstreetmap.org/wiki/DE:Genauigkeit_von_Koordinaten)
+* [stackoverflow.com - What MySQL data type should be used for Latitude/Longitude with 8 decimal places?](https://stackoverflow.com/questions/12504208/what-mysql-data-type-should-be-used-for-latitude-longitude-with-8-decimal-places)
+* [openstreetmap.org - Genauigkeit von Koordinaten](https://wiki.openstreetmap.org/wiki/DE:Genauigkeit_von_Koordinaten)
