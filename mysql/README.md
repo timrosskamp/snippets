@@ -18,3 +18,4 @@ float(11,7) | decimal(11,7)
 ```
 
 * https://stackoverflow.com/questions/12504208/what-mysql-data-type-should-be-used-for-latitude-longitude-with-8-decimal-places
+* [Genauigkeit von Koordinaten openstreetmap.org](https://wiki.openstreetmap.org/wiki/DE:Genauigkeit_von_Koordinaten)
