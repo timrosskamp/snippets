@@ -1,3 +1,7 @@
+# SASS Snippets
+
+## `inline-svg()`
+```scss
 @function str-replace($string, $search, $replace: ''){
     $index: str-index($string, $search);
     @if $index {
@@ -26,3 +30,4 @@
 @function inline-svg($string){
     @return url('data:image/svg+xml;utf8,#{svg-encode($string)}');
 }
+```
