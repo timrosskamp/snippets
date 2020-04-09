@@ -1,4 +1,8 @@
-# SASS Snippets
+# CSS/SCSS Snippets
+
+## Nicer CSS Shadows
+
+[timrosskamp.github.io/snippets/scss/shadows](https://timrosskamp.github.io/snippets/scss/shadows)
 
 ## `inline-svg()`
 ```scss
