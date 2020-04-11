@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Box Shadow Generator</title>
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+            }
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                background-color: hsl(210, 36%, 96%);
+                color: hsl(209, 34%, 30%);
+
+                max-width: 60rem;
+                padding: 6rem 2rem 12rem;
+                margin: 0 auto;
+            }
+
+            h1 {
+                font-size: calc(3vmin + 1.5rem);
+                margin: 0 0 4rem;
+                line-height: 1.2;
+            }
+
+            label {
+                display: block;
+                margin-top: 1.5rem;
+                margin-bottom: 0.5rem;
+                font-weight: bold;
+                font-size: 1.5rem;
+            }
+
+            .editor {
+                display: grid;
+                grid-template-columns: 2fr 1fr;
+                grid-gap: 4rem;
+                align-items: center;
+            }
+
+            .preview {
+                background-color: white;
+                padding: 2rem;
+                border-radius: 1rem;
+                min-height: 20rem;
+            }
+
+            .rangeField {
+                display: grid;
+                grid-template-columns: 4rem 1fr;
+                align-items: center;
+            }
+
+            .flow > *:first-child {
+                margin-top: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <h1>Box Shadow Generator</h1>
+            <div class="editor">
+                <div>
+                    <div class="preview" v-bind:style="{ boxShadow: this.boxShadow }">
+                        <pre>box-shadow: {{ boxShadow }};</pre>
+                    </div>
+                </div>
+                <div class="flow">
+                    <label>X-Offset</label>
+                    <div class="rangeField">
+                        {{ xOffset }}px
+                        <input type="range" v-model="xOffsetInput" min="0" max="1" step="0.01">
+                    </div>
+
+                    <label>Y-Offset</label>
+                    <div class="rangeField">
+                        {{ yOffset }}px
+                        <input type="range" v-model="yOffsetInput" min="0" max="1" step="0.01">
+                    </div>
+
+                    <label>Blur</label>
+                    <div class="rangeField">
+                        {{ blur }}px
+                        <input type="range" v-model="blurInput" min="0" max="1" step="0.01">
+                    </div>
+
+                    <label>Opacity</label>
+                    <div class="rangeField">
+                        {{ opacity }}
+                        <input type="range" v-model="opacityInput" min="0" max="1" step="0.01">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="module">
+            import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6/dist/vue.esm.browser.js'
+
+            const round = (value, decimals = 0) => {
+                return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals)
+            }
+
+            const range = (min, max) => {
+                return (value) => {
+                    const progress = 0.8 * Math.pow(value, 2) + 0.2 * value
+
+                    return progress * (max - min) + min
+                }
+            }
+            
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    xOffsetInput: "0",
+                    yOffsetInput: "0.08",
+                    blurInput: "0.12",
+                    opacityInput: "0.5"
+                },
+                computed: {
+                    xOffset: function(){
+                        return Math.round(range(0, 100)(this.xOffsetInput))
+                    },
+                    yOffset: function(){
+                        return Math.round(range(0, 100)(this.yOffsetInput))
+                    },
+                    blur: function(){
+                        const blur = parseFloat(this.blurInput)
+
+                        return Math.round(range(0, 100)(blur))
+                    },
+                    opacity: function(){
+                        return round(range(0, 1)(this.opacityInput), 2)
+                    },
+                    boxShadow: function(){
+                        return `${this.xOffset}px ${this.yOffset}px ${this.blur}px rgba(0, 0, 0, ${this.opacity})`
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

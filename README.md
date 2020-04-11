@@ -4,4 +4,5 @@ Snippets or small components for everyday web projects
 
 ## Pages
 
-* [Nicer CSS Shadows (timrosskamp.github.io/snippets/scss/shadows)](https://timrosskamp.github.io/snippets/css/shadows)
+* [CSS Box-Shadow Generator](https://timrosskamp.github.io/snippets/box-shadow)
+* [Nicer CSS Shadows](https://timrosskamp.github.io/snippets/css/shadows)
