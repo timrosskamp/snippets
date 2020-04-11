@@ -1,10 +1,7 @@
 # CSS/SCSS Snippets
 
-## Nicer CSS Shadows
-
-[timrosskamp.github.io/snippets/scss/shadows](https://timrosskamp.github.io/snippets/scss/shadows)
-
 ## `inline-svg()`
+
 ```scss
 @function str-replace($string, $search, $replace: ''){
     $index: str-index($string, $search);
@@ -13,7 +10,7 @@
     }
     @return $string;
 }
-  
+
 @function svg-encode($string){
     $map: (
         "'": "\"",
