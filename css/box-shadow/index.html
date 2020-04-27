@@ -102,12 +102,10 @@
                 return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals)
             }
 
-            const range = (min, max) => {
-                return (value) => {
-                    const progress = 0.8 * Math.pow(value, 2) + 0.2 * value
+            const logScale = (min, max, steep = 0.7) => (value) => {
+                const progress = steep * Math.pow(value, 2) + (1 - steep) * value
 
-                    return progress * (max - min) + min
-                }
+                return progress * (max - min) + min
             }
             
             const app = new Vue({
@@ -120,18 +118,18 @@
                 },
                 computed: {
                     xOffset: function(){
-                        return Math.round(range(0, 100)(this.xOffsetInput))
+                        return Math.round(logScale(0, 100)(this.xOffsetInput))
                     },
                     yOffset: function(){
-                        return Math.round(range(0, 100)(this.yOffsetInput))
+                        return Math.round(logScale(0, 100)(this.yOffsetInput))
                     },
                     blur: function(){
                         const blur = parseFloat(this.blurInput)
 
-                        return Math.round(range(0, 100)(blur))
+                        return Math.round(logScale(0, 100)(blur))
                     },
                     opacity: function(){
-                        return round(range(0, 1)(this.opacityInput), 2)
+                        return round(logScale(0, 1)(this.opacityInput), 2)
                     },
                     boxShadow: function(){
                         return `${this.xOffset}px ${this.yOffset}px ${this.blur}px rgba(0, 0, 0, ${this.opacity})`
