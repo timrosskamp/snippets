@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>stimulus.js - Collapsible</title>
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+            }
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                background-color: hsl(210, 36%, 96%);
+                color: hsl(209, 34%, 30%);
+
+                max-width: 60rem;
+                padding: 6rem 2rem 12rem;
+                margin: 0 auto;
+            }
+
+            * + * {
+                margin-top: 1em;
+            }
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/stimulus@1.1/dist/stimulus.umd.js"></script>
+        <script>
+            (() => {
+                const { Application, Controller } = Stimulus
+
+                const application = Application.start()
+
+                application.register("collapsible", class extends Controller {
+
+                    static targets = ["content", "button"]
+
+                    connect(){
+                        this.isAnimating = false
+
+                        if( !this.buttonTarget.hasAttribute('aria-expanded') ){
+                            this.buttonTarget.setAttribute('aria-expanded', 'true')
+                        }else if( this.buttonTarget.getAttribute('aria-expanded') == 'false' ) {
+                            this.contentTarget.style.display = 'none'
+                        }
+                    }
+
+                    toggle(e){
+                        if( this.isAnimating ){
+                            return;
+                        }
+
+                        if( this.isOpen() ){
+                            this.close()
+                        }else{
+                            this.open()
+                        }
+                    }
+
+                    open(e){
+                        this.isAnimating = true
+
+                        this.contentTarget.style.display = ''
+                        const height = this.contentTarget.offsetHeight
+
+                        this.contentTarget.style.height = '0'
+                        this.contentTarget.style.overflowY = 'hidden'
+                        this.contentTarget.style.transition = `height 0.3s ease`
+
+                        const end = () => {
+                            this.contentTarget.removeEventListener('transitionend', end)
+
+                            this.contentTarget.style.height = ''
+                            this.contentTarget.style.overflowY = ''
+                            this.contentTarget.style.transition = ''
+
+                            this.buttonTarget.setAttribute('aria-expanded', 'true')
+                            this.isAnimating = false
+                        }
+
+                        this.contentTarget.addEventListener('transitionend', end);
+
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                this.contentTarget.style.height = height + 'px'
+                            })
+                        })
+                    }
+
+                    close(e){
+                        this.isAnimating = true
+
+                        this.contentTarget.style.height = this.contentTarget.offsetHeight + 'px'
+                        this.contentTarget.style.overflowY = 'hidden'
+                        this.contentTarget.style.transition = `height 0.3s ease`
+
+                        const end = () => {
+                            this.contentTarget.removeEventListener('transitionend', end)
+
+                            this.contentTarget.style.height = ''
+                            this.contentTarget.style.overflowY = ''
+                            this.contentTarget.style.transition = ''
+                            this.contentTarget.style.display = 'none'
+
+                            this.buttonTarget.setAttribute('aria-expanded', 'false')
+                            this.isAnimating = false
+                        }
+
+                        this.contentTarget.addEventListener('transitionend', end);
+
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                this.contentTarget.style.height = '0'
+                            })
+                        })
+                    }
+
+                    isOpen(){
+                        return this.buttonTarget.getAttribute('aria-expanded') == 'true'
+                    }
+
+                })
+            })()
+        </script>
+    </head>
+    <body>
+        <div data-controller="collapsible">
+            <h2>Collapsible Section <button data-target="collapsible.button" data-action="click->collapsible#toggle">expand</button></h2>
+            <div data-target="collapsible.content">
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
+            </div>
+        </div>
+    </body>
+</html>
