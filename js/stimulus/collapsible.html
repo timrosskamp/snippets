@@ -15,13 +15,74 @@
                 background-color: hsl(210, 36%, 96%);
                 color: hsl(209, 34%, 30%);
 
-                max-width: 60rem;
+                max-width: 40rem;
                 padding: 6rem 2rem 12rem;
                 margin: 0 auto;
             }
 
-            * + * {
+            p + p {
                 margin-top: 1em;
+            }
+
+            .u-visuallyhidden { 
+                position: absolute !important;
+                height: 1px; 
+                width: 1px;
+                overflow: hidden;
+                clip: rect(1px, 1px, 1px, 1px);
+                white-space: nowrap;
+            }
+
+            .c-icon {
+                display: inline-block;
+                width: 1em;
+                height: 1em;
+                stroke-width: 0;
+                stroke: currentColor;
+                fill: currentColor;
+            }
+
+
+
+            /** ----------------------------------------------------------------
+             * Collapsible Style
+             */
+            .c-collapsible {
+                margin-top: 1rem;
+            }
+
+            .c-collapsible__heading {
+                position: relative;
+                padding-bottom: 0.2rem;
+                border-bottom: 1px solid hsl(211, 27%, 70%);
+                margin-bottom: 0.5rem;
+            }
+
+            .c-collapsible__content {
+                
+            }
+
+            .c-collapsible__button {
+                display: block;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                background: transparent;
+                border: 0;
+            }
+
+            .c-collapsible__icon {
+                display: block;
+                font-size: 16px;
+                color: hsl(199, 84%, 55%);
+                transform-origin: center;
+                transition: transform 0.2s ease;
+            }
+
+            .c-collapsible__button[aria-expanded=true] .c-collapsible__icon {
+                transform: rotate(135deg);
+                color: hsl(211, 27%, 70%);
             }
         </style>
         <script src="https://cdn.jsdelivr.net/npm/stimulus@1.1/dist/stimulus.umd.js"></script>
@@ -74,7 +135,6 @@
                             this.contentTarget.style.overflowY = ''
                             this.contentTarget.style.transition = ''
 
-                            this.buttonTarget.setAttribute('aria-expanded', 'true')
                             this.isAnimating = false
                         }
 
@@ -85,6 +145,8 @@
                                 this.contentTarget.style.height = height + 'px'
                             })
                         })
+                        
+                        this.buttonTarget.setAttribute('aria-expanded', 'true')
                     }
 
                     close(e){
@@ -102,7 +164,6 @@
                             this.contentTarget.style.transition = ''
                             this.contentTarget.style.display = 'none'
 
-                            this.buttonTarget.setAttribute('aria-expanded', 'false')
                             this.isAnimating = false
                         }
 
@@ -113,6 +174,8 @@
                                 this.contentTarget.style.height = '0'
                             })
                         })
+                        
+                        this.buttonTarget.setAttribute('aria-expanded', 'false')
                     }
 
                     isOpen(){
@@ -124,13 +187,47 @@
         </script>
     </head>
     <body>
-        <div data-controller="collapsible">
-            <h2>Collapsible Section <button data-target="collapsible.button" data-action="click->collapsible#toggle">expand</button></h2>
+
+        <div class="c-collapsible" data-controller="collapsible">
+            <h2 class="c-collapsible__heading" data-action="click->collapsible#toggle">
+                Collapsible Section
+                <button class="c-collapsible__button" aria-expanded="true" data-target="collapsible.button" data-action="click->collapsible#toggle">
+                    <span class="u-visuallyhidden">Toggle Content</span>
+                    <svg class="c-collapsible__icon  c-icon"><use xlink:href="#icon-plus"></use></svg>
+                </button>
+            </h2>
             <div data-target="collapsible.content">
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
             </div>
         </div>
+
+        <div class="c-collapsible" data-controller="collapsible">
+            <h2 class="c-collapsible__heading" data-action="click->collapsible#toggle">
+                Collapsible Section
+                <button class="c-collapsible__button" aria-expanded="false" data-target="collapsible.button" data-action="click->collapsible#toggle">
+                    <span class="u-visuallyhidden">Toggle Content</span>
+                    <svg class="c-collapsible__icon  c-icon"><use xlink:href="#icon-plus"></use></svg>
+                </button>
+            </h2>
+            <div data-target="collapsible.content">
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
+            </div>
+        </div>
+
+
+
+
+        <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <defs>
+                <symbol id="icon-plus" viewBox="0 0 32 32">
+                    <path d="M31 12h-11v-11c0-0.552-0.448-1-1-1h-6c-0.552 0-1 0.448-1 1v11h-11c-0.552 0-1 0.448-1 1v6c0 0.552 0.448 1 1 1h11v11c0 0.552 0.448 1 1 1h6c0.552 0 1-0.448 1-1v-11h11c0.552 0 1-0.448 1-1v-6c0-0.552-0.448-1-1-1z"></path>
+                </symbol>
+            </defs>
+        </svg> 
+
     </body>
 </html>
