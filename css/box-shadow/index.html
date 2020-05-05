@@ -28,17 +28,16 @@
 
             label {
                 display: block;
-                margin-top: 1.5rem;
-                margin-bottom: 0.5rem;
+                margin-top: 0.8rem;
+                margin-bottom: 0.2rem;
                 font-weight: bold;
-                font-size: 1.5rem;
+                font-size: 1.2rem;
             }
 
             .editor {
                 display: grid;
                 grid-template-columns: 2fr 1fr;
                 grid-gap: 4rem;
-                align-items: center;
             }
 
             .preview {
@@ -57,6 +56,19 @@
             .flow > *:first-child {
                 margin-top: 0;
             }
+
+            .layer + .layer {
+                margin-top: 2rem;
+            }
+
+            .addBtnWrap {
+                margin-top: 3rem;
+                text-align: center;
+            }
+
+            .addBtn {
+
+            }
         </style>
     </head>
     <body>
@@ -68,33 +80,46 @@
                         <pre>box-shadow: {{ boxShadow }};</pre>
                     </div>
                 </div>
-                <div class="flow">
-                    <label>X-Offset</label>
-                    <div class="rangeField">
-                        {{ xOffset }}px
-                        <input type="range" v-model="xOffsetInput" min="0" max="1" step="0.01">
+                <div>
+                    <div>
+                        <layer v-for="n in layers" :key="n" v-on:shadow="shadow => updateShadow(shadow, n)" />
                     </div>
-
-                    <label>Y-Offset</label>
-                    <div class="rangeField">
-                        {{ yOffset }}px
-                        <input type="range" v-model="yOffsetInput" min="0" max="1" step="0.01">
-                    </div>
-
-                    <label>Blur</label>
-                    <div class="rangeField">
-                        {{ blur }}px
-                        <input type="range" v-model="blurInput" min="0" max="1" step="0.01">
-                    </div>
-
-                    <label>Opacity</label>
-                    <div class="rangeField">
-                        {{ opacity }}
-                        <input type="range" v-model="opacityInput" min="0" max="1" step="0.01">
+                    
+                    <div class="addBtnWrap">
+                        <button class="addBtn" v-on:click="() => layers += 1">Add layer</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <template id="layer-template">
+            <div class="layer  flow">
+                <label>X-Offset</label>
+                <div class="rangeField">
+                    {{ xOffset }}px
+                    <input type="range" v-model="xOffsetInput" min="0" max="1" step="0.01">
+                </div>
+
+                <label>Y-Offset</label>
+                <div class="rangeField">
+                    {{ yOffset }}px
+                    <input type="range" v-model="yOffsetInput" min="0" max="1" step="0.01">
+                </div>
+
+                <label>Blur</label>
+                <div class="rangeField">
+                    {{ blur }}px
+                    <input type="range" v-model="blurInput" min="0" max="1" step="0.01">
+                </div>
+
+                <label>Opacity</label>
+                <div class="rangeField">
+                    {{ opacity }}
+                    <input type="range" v-model="opacityInput" min="0" max="1" step="0.01">
+                </div>
+            </div>
+        </template>
+
         <script type="module">
             import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6/dist/vue.esm.browser.js'
 
@@ -107,14 +132,16 @@
 
                 return progress * (max - min) + min
             }
-            
-            const app = new Vue({
-                el: '#app',
-                data: {
-                    xOffsetInput: "0",
-                    yOffsetInput: "0.08",
-                    blurInput: "0.12",
-                    opacityInput: "0.5"
+
+            Vue.component('layer', {
+                template: '#layer-template',
+                data(){
+                    return {
+                        xOffsetInput: "0",
+                        yOffsetInput: "0.08",
+                        blurInput: "0.12",
+                        opacityInput: "0.5"
+                    }
                 },
                 computed: {
                     xOffset: function(){
@@ -133,6 +160,37 @@
                     },
                     boxShadow: function(){
                         return `${this.xOffset}px ${this.yOffset}px ${this.blur}px rgba(0, 0, 0, ${this.opacity})`
+                    }
+                },
+                watch: {
+                    boxShadow: function(){
+                        this.$emit('shadow', this.boxShadow)
+                    }
+                },
+                created(){
+                    this.$emit('shadow', this.boxShadow)
+                }
+            })
+            
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    layers: 1,
+                    shadows: []
+                },
+                computed: {
+                    boxShadow(){
+                        return this.shadows.join(',\n            ');
+                    }
+                },
+                watch: {
+                    layers(){
+                        // this.shadows = this.shadows.slice(0, this.layers)
+                    }
+                },
+                methods: {
+                    updateShadow(shadow, n){
+                        this.$set(this.shadows, n - 1, shadow)
                     }
                 }
             })
