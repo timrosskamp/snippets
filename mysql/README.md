@@ -22,6 +22,8 @@ float(11,7) | decimal(11,7)
 
 ## Umkreissuche nach Koordinaten
 
+In MySQL 5.7 macht die Funktion [`ST_Distance_Sphere`](https://dev.mysql.com/doc/refman/5.7/en/spatial-convenience-functions.html#function_st-distance-sphere) genau das, diese gibt es aber in MariaDB nicht mehr.
+
 Rows in einer Tabelle werden nach ihrer Entfernung (`:radius`) zu `:lat1` und `:lng1` gefiltert.
 
 ```mysql
