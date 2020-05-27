@@ -4,7 +4,7 @@
  * @param { function } cb | Callback-function after the script has been loaded
  * @returns { void }
  */
-export const asyncScript = (url, cb) => {
+export const loadJsFile = (url, cb) => {
     const script = document.createElement('script');
 
     script.addEventListener('load', function load(e){
