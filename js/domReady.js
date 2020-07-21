@@ -1,8 +1,10 @@
+/**
+ * @param {Function} cb 
+ */
 const domReady = (cb) => {
-	if( document.readyState === 'complete' || document.readyState === 'interactive' ){
-		cb()
-	}
-	else{
-		document.addEventListener('DOMContentLoaded', cb);
-	}
+    if( document.readyState === 'complete' || document.readyState === 'interactive' ){
+        cb()
+    }else{
+        document.addEventListener('DOMContentLoaded', () => cb())
+    }
 }
