@@ -5,15 +5,22 @@
  * @returns { void }
  */
 export const loadJsFile = (url, cb) => {
-    const script = document.createElement('script');
+	const isLoaded = Array.from(document.scripts).find(script => script.getAttribute('src') == url)
 
-    script.addEventListener('load', function load(e){
-        cb(e);
+	if( isLoaded ){
+		cb()
+		return
+	}
 
-        script.removeEventListener('load', load);
+    const script = document.createElement('script')
+
+    script.addEventListener('load', function load(){
+        cb()
+
+        script.removeEventListener('load', load)
     });
 
-    script.src = url;
+    script.src = url
 
-    document.head.appendChild(script);
+    document.head.appendChild(script)
 }
