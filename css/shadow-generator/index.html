@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <script src="app.js" type="module" async defer></script>
+        <title>Shadow Generator</title>
+    </head>
+    <body>
+        <h1>Shadow Generator</h1>
+        <div id="app">
+            <div class="shadow" v-bind:style="{ boxShadow: this.boxShadow }">
+                <pre>box-shadow: {{ boxShadow }};</pre>
+            </div>
+
+            <div class="controls">
+                <div>
+                    <label for="angle">Angle:</label>
+                    <input type="range" id="angle" min="0" max="360" step="10" v-model="angleInput">
+                </div>
+                <div>
+                    <label for="size">Size:</label>
+                    <input type="range" id="size" min="2" max="128" step="2" v-model="sizeInput">
+                </div>
+                <div>
+                    <label for="darkness">Darkness:</label>
+                    <input type="range" id="darkness" min="1" max="100" v-model="darknessInput">
+                </div>
+                <div>
+                    <label for="sharpness">Sharpness:</label>
+                    <input type="range" id="sharpness" min="0" max="100" v-model="sharpnessInput">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
