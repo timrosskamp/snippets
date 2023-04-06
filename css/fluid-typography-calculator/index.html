@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Box Shadow Generator</title>
+        <style>
+            :root {
+                --color-neutral-50:  rgb(248 250 252);
+                --color-neutral-100: rgb(241 245 249);
+                --color-neutral-200: rgb(226 232 240);
+                --color-neutral-300: rgb(203 213 225);
+                --color-neutral-400: rgb(148 163 184);
+                --color-neutral-500: rgb(100 116 139);
+                --color-neutral-600: rgb(71 85 105);
+                --color-neutral-700: rgb(51 65 85);
+                --color-neutral-800: rgb(30 41 59);
+                --color-neutral-900: rgb(15 23 42);
+                --color-neutral-950: rgb(2 6 23);
+
+                --color-cyan-50:  rgb(236 254 255);
+                --color-cyan-100: rgb(207 250 254);
+                --color-cyan-200: rgb(165 243 252);
+                --color-cyan-300: rgb(103 232 249);
+                --color-cyan-400: rgb(34 211 238);
+                --color-cyan-500: rgb(6 182 212);
+                --color-cyan-600: rgb(8 145 178);
+                --color-cyan-700: rgb(14 116 144);
+                --color-cyan-800: rgb(21 94 117);
+                --color-cyan-900: rgb(22 78 99);
+                --color-cyan-950: rgb(8 51 68);
+            }
+
+            * {
+                padding: 0;
+                margin: 0;
+            }
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                background-color: var(--color-neutral-100);
+                color: var(--color-neutral-700);
+
+                max-width: 60rem;
+                padding: 6rem 2rem 12rem;
+                margin: 0 auto;
+            }
+
+            #app > * + * {
+                margin-top: 80px;
+            }
+
+            h1 {
+                font-size: calc(3vmin + 1.5rem);
+                line-height: 1.2;
+            }
+
+            .inputs {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            @media (min-width: 600px) {
+                .inputs {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+
+            label {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .input {
+                display: flex;
+            }
+
+            .input input {
+                border: 1px solid var(--color-neutral-300);
+                padding: 10px;
+                font-size: inherit;
+                border-top-left-radius: 6px;
+                border-bottom-left-radius: 6px;
+                z-index: 1;
+                width: 100%;
+            }
+
+            .input input:focus {
+                border: 1px solid var(--color-cyan-500);
+                outline: 2px solid var(--color-cyan-300);
+            }
+
+            .input .suffix {
+                padding: 10px;
+                border: 1px solid var(--color-neutral-300);
+                border-left-width: 0;
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
+            }
+
+            .preview {
+                font-family:
+                    ui-monospace,
+                    SFMono-Regular,
+                    Consolas,
+                    'Liberation Mono',
+                    Menlo,
+                    monospace;
+                font-size: 18px;
+                display: block;
+                border: 1px solid var(--color-neutral-200);
+                background-color: white;
+                padding: 20px;
+                border-radius: 10px;
+                min-height: 160px;
+            }
+
+            .example {
+                text-align: center;
+            }
+
+            .example-text {
+                margin-bottom: 10px;
+            }
+
+            .code {
+                display: inline-block;
+                font-family:
+                    ui-monospace,
+                    SFMono-Regular,
+                    Consolas,
+                    'Liberation Mono',
+                    Menlo,
+                    monospace;
+                background-color: white;
+                border: 1px solid var(--color-neutral-200);
+                border-radius: 5px;
+                padding: 2px 4px;
+            }
+
+            .code + .code {
+                margin-left: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <h1>Fluid Typography Calculator</h1>
+
+            <div class="example">
+                <p class="example-text" ref="example" v-bind:style="{ fontSize: css }">Lorem ipsum dolor sit amet</p>
+                <p><span class="code">Font Size: {{ realFontSize }}</span><span class="code">Viewport: {{ realViewport }}px</span></p>
+            </div>
+
+            <div class="preview">font-size: {{ css }};</div>
+
+            <div class="inputs">
+                <div>
+                    <label for="min-font-size">Min Font Size</label>
+                    <div class="input">
+                        <input id="min-font-size" type="number" v-model="minFontSize" min="1">
+                        <div class="suffix">px</div>
+                    </div>
+                </div>
+                <div>
+                    <label for="min-viewport">Min Viewport</label>
+                    <div class="input">
+                        <input id="min-viewport" type="number" v-model="minViewPort" min="1">
+                        <div class="suffix">px</div>
+                    </div>
+                </div>
+                <div>
+                    <label for="max-font-size">Max Font Size</label>
+                    <div class="input">
+                        <input id="max-font-size" type="number" v-model="maxFontSize" min="1">
+                        <div class="suffix">px</div>
+                    </div>
+                </div>
+                <div>
+                    <label for="max-viewport">Max Viewport</label>
+                    <div class="input">
+                        <input id="max-viewport" type="number" v-model="maxViewPort" min="1">
+                        <div class="suffix">px</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script type="module">
+            import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6/dist/vue.esm.browser.js'
+
+            const round = (value, decimals = 0) => {
+                return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals)
+            }
+
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    minFontSize: 16,
+                    maxFontSize: 32,
+                    minViewPort: 320,
+                    maxViewPort: 1600,
+                    realFontSize: "",
+                    realViewport: 0
+                },
+                computed: {
+                    css: function() {
+                        const factor = (1 / (this.maxViewPort - this.minViewPort)) * (this.maxFontSize - this.minFontSize)
+                        const calcRem = this.minFontSize - this.minViewPort * factor
+                        const calcVw = 100 * factor
+                        return `clamp(${this.minFontSize}px, ${round(calcRem, 4)}px + ${round(calcVw, 4)}vw, ${this.maxFontSize}px)`;
+                    }
+                },
+                mounted() {
+                    window.addEventListener('resize', () => this.onResize())
+                    this.onResize()
+                },
+                methods: {
+                    onResize() {
+                        this.realViewport = window.innerWidth;
+                        const style = window.getComputedStyle(this.$refs.example, null)
+                        this.realFontSize = style.getPropertyValue('font-size')
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
+    
