@@ -204,6 +204,11 @@
                     realFontSize: "",
                     realViewport: 0
                 },
+                watch: {
+                    css: function() {
+                        this.onResize()
+                    }
+                },
                 computed: {
                     css: function() {
                         const factor = (1 / (this.maxViewPort - this.minViewPort)) * (this.maxFontSize - this.minFontSize)
